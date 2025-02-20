@@ -36,17 +36,7 @@ public class AccountDao {
     }
 
     public Account geAccount(Account acc){
-        Connection conn = ConnectionUtil.getConnection();
-        try{
-            String sql = "select user_id, username from Account where username = ? and password = ?";
-            PreparedStatement pStatement = conn.prepareStatement(sql,Statement.RETURN_GENERATED_KEYS);
-            pStatement.setString(1, acc.getUsername());
-            pStatement.setString(2, acc.getPassword());
-            
-           
-           pStatement.executeLargeUpdate();
-            
-            ResultSet rSet = pStatement.getGeneratedKeys();
+   
         return null;
 
     }
