@@ -28,15 +28,34 @@ public class AccountDao {
         catch(SQLException ex){
             System.out.println(ex.getMessage());
         }
-
-
-
+        
         return null;
 
     }
 
     public Account geAccount(Account acc){
-   
+        Connection conn = ConnectionUtil.getConnection();
+        try{
+            String sql = "select account_id, username, password from Account where username = ?";
+            PreparedStatement pStatement = conn.prepareStatement(sql);
+            pStatement.setString(1, acc.getUsername());
+           
+           ResultSet res = pStatement.executeQuery();
+
+           while(res.next()){
+            int account_id = res.getInt(1);
+            String userName = res.getString(2);
+            String password = res.getString(3);
+            if(userName.equals(acc.username) && password.equals(acc.getPassword())){
+                acc.setAccount_id(account_id);
+                return acc;
+            }
+           }
+        }
+        catch(SQLException ex){
+            System.out.println(ex.getMessage());
+        }
+
         return null;
 
     }

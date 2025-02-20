@@ -30,6 +30,5 @@ public class AccountService {
         return null;
       return accountDao.geAccount(acc);
 
-      //return acc;
     }
 }
