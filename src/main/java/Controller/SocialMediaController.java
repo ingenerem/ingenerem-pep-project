@@ -1,5 +1,7 @@
 package Controller;
 
+import java.util.ArrayList;
+
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -7,7 +9,9 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import io.javalin.Javalin;
 import io.javalin.http.Context;
 import Service.AccountService;
+import Service.MessageService;
 import Model.Account;
+import Model.Message;
 
 /**
  * TODO: You will need to write your own endpoints and handlers for your controller. The endpoints you will need can be
@@ -22,10 +26,12 @@ public class SocialMediaController {
      */
 
      AccountService accountService;
+     MessageService messageService;
 
 
     public SocialMediaController(){
         this.accountService = new AccountService();
+        this.messageService = new MessageService();
 
     }
     public Javalin startAPI() {
@@ -33,6 +39,8 @@ public class SocialMediaController {
         app.get("example-endpoint", this::exampleHandler);
         app.post("register", this::registerUserHandler);
         app.post("login", this::LoginUserHandler);
+        app.post("messages",this::createMessage);
+        app.get("messages",this::retrieveAllMessages);
 
         return app;
     }
@@ -70,6 +78,24 @@ public class SocialMediaController {
             ctx.status(200);
             ctx.json(oMapper.writeValueAsString(account));
         }
+    }
+
+    private void createMessage(Context ctx) throws JsonProcessingException{
+        ObjectMapper oMapper = new ObjectMapper();
+        Message message = oMapper.readValue(ctx.body(), Message.class);
+        Message newMessage = messageService.createMessage(message);
+        if(newMessage == null){
+            ctx.status(400);
+        }
+        else{
+            ctx.json(oMapper.writeValueAsString(newMessage));
+        }
+    }
+
+    private void retrieveAllMessages(Context ctx) throws JsonProcessingException{
+        ObjectMapper oMapper = new ObjectMapper();
+        ArrayList<Message> messages = messageService.retrieveAllMessages();
+        ctx.json(oMapper.writeValueAsString(messages));
     }
 
 

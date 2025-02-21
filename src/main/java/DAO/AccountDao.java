@@ -59,5 +59,29 @@ public class AccountDao {
         return null;
 
     }
+
+    public Boolean isValidUser(int account_id) {
+
+        Connection conn = ConnectionUtil.getConnection();
+
+        try{
+            String sql = "select account_id from Account where account_id = ?";
+            PreparedStatement pStatement = conn.prepareStatement(sql);
+            pStatement.setInt(1, account_id);
+
+            ResultSet res = pStatement.executeQuery();
+
+            if(res.next()){
+                return true;
+            }
+
+            
+        }
+        catch(SQLException ex){
+            System.out.println(ex.getMessage());
+        }
+        return false;
+        
+    }
     
 }

@@ -31,4 +31,16 @@ public class AccountService {
       return accountDao.geAccount(acc);
 
     }
+
+
+    public Boolean isValidUser(int postedBy){
+
+      if(postedBy <1)
+        return false;
+
+      return accountDao.isValidUser(postedBy);
+
+
+    }
+    
 }
