@@ -59,6 +59,11 @@ public class SocialMediaController {
 
     }
 
+    /**
+     * This is a handler for the endpoint that creates a new user
+     * @param ctx The Javalin Context object manages information about both the HTTP request and response.
+     * @throws JsonProcessingException Jason Processing exception
+     */
     private void registerUserHandler(Context ctx) throws JsonProcessingException{
         ObjectMapper oMapper = new ObjectMapper();
         Account newUser = oMapper.readValue(ctx.body(), Account.class);
@@ -71,6 +76,12 @@ public class SocialMediaController {
             ctx.json(oMapper.writeValueAsString(account));
         }
     }
+
+    /**
+     * This is a handler for the endpoint to login a user
+     * @param ctx The Javalin Context object manages information about both the HTTP request and response.
+     * @throws JsonProcessingException Jason Processing exception
+     */
 
     private void LoginUserHandler(Context ctx) throws JsonProcessingException{
         ObjectMapper oMapper = new ObjectMapper();
@@ -85,6 +96,12 @@ public class SocialMediaController {
         }
     }
 
+
+    /**
+     * This is a handler for the endpoint that creates a new message
+     * @param ctx The Javalin Context object manages information about both the HTTP request and response.
+     * @throws JsonProcessingException Jason Processing exception
+     */
     private void createMessage(Context ctx) throws JsonProcessingException{
         ObjectMapper oMapper = new ObjectMapper();
         Message message = oMapper.readValue(ctx.body(), Message.class);
@@ -97,6 +114,11 @@ public class SocialMediaController {
         }
     }
 
+    /**
+     * This is a handler for the endpoint that retrieves all messages by all users
+     * @param ctx The Javalin Context object manages information about both the HTTP request and response.
+     * @throws JsonProcessingException Jason Processing exception
+     */
     private void retrieveAllMessages(Context ctx) throws JsonProcessingException{
         ObjectMapper oMapper = new ObjectMapper();
         ArrayList<Message> messages = messageService.retrieveAllMessages();
@@ -104,6 +126,11 @@ public class SocialMediaController {
     }
 
 
+    /**
+     * This is a handler for the endpoint that retrieves a message given a message ID
+     * @param ctx The Javalin Context object manages information about both the HTTP request and response.
+     * @throws JsonProcessingException Jason Processing exception
+     */
     private void retrieveMessageByID(Context ctx) throws JsonProcessingException{
         ObjectMapper oMapper = new ObjectMapper();
         String msgStr = ctx.pathParam("message_id");
@@ -124,6 +151,11 @@ public class SocialMediaController {
     }
 
 
+    /**
+     * This is a handler for the endpoint that retrieves all messages by a specific user
+     * @param ctx The Javalin Context object manages information about both the HTTP request and response.
+     * @throws JsonProcessingException Jason Processing exception
+     */
     private void retrieveAllMessagesForUser(Context ctx) throws JsonProcessingException{
         ObjectMapper oMapper = new ObjectMapper();
         String user_id = ctx.pathParam("account_id");
@@ -142,6 +174,11 @@ public class SocialMediaController {
         
     }
 
+    /**
+     * This is a handler for the endpoint that deletes a message by message_id
+     * @param ctx The Javalin Context object manages information about both the HTTP request and response.
+     * @throws JsonProcessingException Jason Processing exception
+     */
     private void deleteMessageByMessageID(Context ctx) throws JsonProcessingException{
         ObjectMapper oMapper = new ObjectMapper();
         String msgStr = ctx.pathParam("message_id");
@@ -163,9 +200,14 @@ public class SocialMediaController {
     }
 
 
+    /**
+     * This is a handler for the endpoint that updates a message text
+     * @param ctx The Javalin Context object manages information about both the HTTP request and response.
+     * @throws JsonProcessingException Jason Processing exception
+     */
     private void updateMessageText(Context ctx) throws JsonProcessingException{
-        ObjectMapper oMapper = new ObjectMapper();
-        String param = ctx.pathParam("message_id");
+       ObjectMapper oMapper = new ObjectMapper();
+       String param = ctx.pathParam("message_id");
         
        String body = ctx.body();
        String text = oMapper.readTree(body).get("message_text").asText();
@@ -181,7 +223,6 @@ public class SocialMediaController {
                 ctx.result("");
             }
               
-        
         }
         catch(Exception ex){
             ctx.status(400);
