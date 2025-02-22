@@ -1,5 +1,6 @@
 package Controller;
 
+import java.rmi.server.ExportException;
 import java.util.ArrayList;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -41,6 +42,10 @@ public class SocialMediaController {
         app.post("login", this::LoginUserHandler);
         app.post("messages",this::createMessage);
         app.get("messages",this::retrieveAllMessages);
+        app.get("messages/{message_id}", this::retrieveMessageByID);
+        app.get("accounts/{account_id}/messages",this::retrieveAllMessagesForUser);
+        app.delete("messages/{message_id}", this::deleteMessageByMessageID);
+        app.patch("messages/{message_id}", this::updateMessageText);
 
         return app;
     }
@@ -96,6 +101,93 @@ public class SocialMediaController {
         ObjectMapper oMapper = new ObjectMapper();
         ArrayList<Message> messages = messageService.retrieveAllMessages();
         ctx.json(oMapper.writeValueAsString(messages));
+    }
+
+
+    private void retrieveMessageByID(Context ctx) throws JsonProcessingException{
+        ObjectMapper oMapper = new ObjectMapper();
+        String msgStr = ctx.pathParam("message_id");
+        try{
+
+            int messageID = Integer.parseInt(msgStr);
+            Message message = messageService.retrieveMessageByID(messageID);
+            if(message!= null)
+              ctx.json(oMapper.writeValueAsString(message));
+            else
+              ctx.result("");
+        
+        }
+        catch(Exception ex){
+            ctx.status(400);
+            ctx.json(ex.toString());
+        }
+    }
+
+
+    private void retrieveAllMessagesForUser(Context ctx) throws JsonProcessingException{
+        ObjectMapper oMapper = new ObjectMapper();
+        String user_id = ctx.pathParam("account_id");
+        try{
+
+            int account_id = Integer.parseInt(user_id);
+            ArrayList<Message> messages = messageService.retrieveAllMessagesForUser(account_id);
+            ctx.json(oMapper.writeValueAsString(messages));
+        }
+
+        catch(Exception e)
+        {
+            ctx.status(400);
+            ctx.json(e.toString());
+        }
+        
+    }
+
+    private void deleteMessageByMessageID(Context ctx) throws JsonProcessingException{
+        ObjectMapper oMapper = new ObjectMapper();
+        String msgStr = ctx.pathParam("message_id");
+        try{
+
+            int messageID = Integer.parseInt(msgStr);
+            Message message = messageService.deleteMessageByMessageID(messageID);
+            if(message!= null)
+              ctx.json(oMapper.writeValueAsString(message));
+            else
+              ctx.result("");
+        
+        }
+        catch(Exception ex){
+            ctx.status(400);
+            ctx.json(ex.toString());
+        }
+        
+    }
+
+
+    private void updateMessageText(Context ctx) throws JsonProcessingException{
+        ObjectMapper oMapper = new ObjectMapper();
+        String param = ctx.pathParam("message_id");
+        
+       String body = ctx.body();
+       String text = oMapper.readTree(body).get("message_text").asText();
+       
+        try{
+
+            int messageID = Integer.parseInt(param);
+            Message message = messageService.UpdateMessageText(messageID, text);
+            if(message!= null)
+              ctx.json(oMapper.writeValueAsString(message));
+            else{
+                ctx.status(400);
+                ctx.result("");
+            }
+              
+        
+        }
+        catch(Exception ex){
+            ctx.status(400);
+            ctx.json(ex.toString());
+        }
+        
     }
 
 

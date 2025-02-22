@@ -37,5 +37,39 @@ public class MessageService {
         return messageDao.retrieveAllMessages();
       }
 
+
+    public Message retrieveMessageByID(int message_id){
+        return messageDao.retrieVeMessageByID(message_id);
+    }
+
+
+    public ArrayList<Message> retrieveAllMessagesForUser(int user_id){
+        return messageDao.retrieveAllMessagesForUser(user_id);
+    }
+
+    public Message deleteMessageByMessageID(int message_id){
+        Message message = retrieveMessageByID(message_id);
+        if(message!= null && messageDao.deleteMessageByMessageID(message_id)){
+            return message;
+
+        }
+        return null;
+    }
+
+    public Message UpdateMessageText(int message_id, String text){
+        Message message = null;
+        if(isValidaMessage(text)){
+              Boolean isUpdated = messageDao.updateMessageText(message_id, text);
+           if(isUpdated){
+                message = retrieveMessageByID(message_id);
+                System.out.println(message);
+               return message;
+
+             }
+        }
+        return null;
+       
+    }
+
     
 }
