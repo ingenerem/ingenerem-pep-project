@@ -60,7 +60,7 @@ public class SocialMediaController {
     }
 
     /**
-     * This is a handler for the endpoint that creates a new user
+     * This is a handler for the endpoint to create a new user
      * @param ctx The Javalin Context object manages information about both the HTTP request and response.
      * @throws JsonProcessingException Jason Processing exception
      */
@@ -98,7 +98,7 @@ public class SocialMediaController {
 
 
     /**
-     * This is a handler for the endpoint that creates a new message
+     * This is a handler for the endpoint to create a new message
      * @param ctx The Javalin Context object manages information about both the HTTP request and response.
      * @throws JsonProcessingException Jason Processing exception
      */
@@ -115,7 +115,7 @@ public class SocialMediaController {
     }
 
     /**
-     * This is a handler for the endpoint that retrieves all messages by all users
+     * This is a handler for the endpoint to retrieve all messages posted by all users
      * @param ctx The Javalin Context object manages information about both the HTTP request and response.
      * @throws JsonProcessingException Jason Processing exception
      */
@@ -127,7 +127,7 @@ public class SocialMediaController {
 
 
     /**
-     * This is a handler for the endpoint that retrieves a message given a message ID
+     * This is a handler for the endpoint to retrieve a message given a message ID
      * @param ctx The Javalin Context object manages information about both the HTTP request and response.
      * @throws JsonProcessingException Jason Processing exception
      */
@@ -152,7 +152,7 @@ public class SocialMediaController {
 
 
     /**
-     * This is a handler for the endpoint that retrieves all messages by a specific user
+     * This is a handler for the endpoint to retrieve all messages posted by a specific user
      * @param ctx The Javalin Context object manages information about both the HTTP request and response.
      * @throws JsonProcessingException Jason Processing exception
      */
@@ -175,7 +175,7 @@ public class SocialMediaController {
     }
 
     /**
-     * This is a handler for the endpoint that deletes a message by message_id
+     * This is a handler for the endpoint to delete a message given a message ID
      * @param ctx The Javalin Context object manages information about both the HTTP request and response.
      * @throws JsonProcessingException Jason Processing exception
      */
@@ -201,7 +201,7 @@ public class SocialMediaController {
 
 
     /**
-     * This is a handler for the endpoint that updates a message text
+     * This is a handler for the endpoint to update a message text
      * @param ctx The Javalin Context object manages information about both the HTTP request and response.
      * @throws JsonProcessingException Jason Processing exception
      */
